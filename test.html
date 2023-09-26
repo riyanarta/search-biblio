@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="fetchBtn">Fetch Button</button>
+    <script>
+        
+        document.getElementById("fetchBtn").addEventListener("click",()=>{
+            const fs = require('fs');
+            fetch("test.json").then(function(response) {
+                return response.json();
+            }).then(function(data){
+                for(let x = 0; x < data.length; x++){
+                    const dataJson = data[x];
+                    for(let a = 0; a < 1; a++){
+                        Object.defineProperty(dataJson, "status", {
+                            value: 1
+                        })
+                        const jsonString = JSON.stringify(dataJson);
+                        fs.writeFileSync('test.json', jsonString, 'utf-8', (err) => {
+                        if (err) throw err;
+                        console.log('Data added to file');
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
